@@ -31,16 +31,21 @@ public class TEST2
         // Each table is seperated by a <tr> tag, so selecting the content between
         // <tr> and </tr> gives us information on a single table.
         Elements contentTableList = doc.select("tr");
-        Vector<String> tableTitle = new Vector<>();
-        Vector<String> table = new Vector<>();
+        Vector<tableEntity> tableVector = new Vector<>();
 
         // Walk through all of the tables in the list, parsing the necessary information.
         for (Element a : contentTableList)
         {
+            tableEntity newTable = new tableEntity(getTitleFromTable(a), getLinkFromTable(a, urlBegin));
+            tableVector.add(newTable);
 //            System.out.println(a);
-        System.out.println("Link: " + getLinkFromTable(a, urlBegin));
-        System.out.println("Title: " + getTitleFromTable(a));
-        System.out.println("#####");
+//        System.out.println("Link: " + getLinkFromTable(a, urlBegin));
+//        System.out.println("Title: " + getTitleFromTable(a));
+//        System.out.println("#####");
+        }
+        
+        for (tableEntity currTable: tableVector){
+            System.out.println(currTable.output());
         }
     }
 
@@ -58,7 +63,8 @@ public class TEST2
         return urlFull;
     }
     
-    public class tableEntity{
+    // A class to represent a single table..
+    public static class tableEntity{
         private String title = "";
         private String url = "";
         
@@ -81,6 +87,10 @@ public class TEST2
         
         public void setURL(String url){
             this.url = url;
+        }
+        
+        public String output(){
+            return title + "    " + url;
         }
     }
 }
