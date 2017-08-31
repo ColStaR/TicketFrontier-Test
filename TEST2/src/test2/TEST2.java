@@ -7,6 +7,11 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import java.util.*;
 
+import java.io.FileOutputStream;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
+
 /**
  * Ticket Frontier Technical Test, Test 2.
  *
@@ -35,33 +40,40 @@ public class TEST2
 
         // Walk through all of the tables in the list, populating the 
         // tableVector data structure with tableEntities..
-        for (Element a : contentTableList) {
+        for (Element a : contentTableList)
+        {
             tableEntity newTable = new tableEntity(getNumberFromTable(a), getTitleFromTable(a), getLinkFromTable(a, urlBegin));
             tableVector.add(newTable);
         }
-        
+
         // If there is a single argument in the command, search the tableVector
         // to see if there are any matches.
-        if(args.length == 1){
-            for(tableEntity currTable : tableVector) {
+        if (args.length == 1)
+        {
+            for (tableEntity currTable : tableVector)
+            {
                 // Compare the number of the tables in tableVector to the
                 // number given in the argument.
-                if(currTable.getNumber().equals(args[0])) {
+                if (currTable.getNumber().equals(args[0]))
+                {
                     System.out.println("Match found! " + currTable.output());
-                    // DO TABLE DOWNLADING HERE
+                    downloadFile(currTable.getURL());
                 }
             }
         // If there are no arguments or more than one, assume default operation
-        // and simply output the contents of tableVector line by line.
-        } else {
-            for (tableEntity currTable: tableVector){
+            // and simply output the contents of tableVector line by line.
+        } else
+        {
+            for (tableEntity currTable : tableVector)
+            {
                 System.out.println(currTable.output());
             }
         }
     }
-    
+
     // Parses the number of the given table, and returns a string.
-    public static String getNumberFromTable(Element a) {
+    public static String getNumberFromTable(Element a)
+    {
         String fullTitle = a.select("td").text();
         // Splits the fullTitle string into an array seperated by spaces.
         // Since the number string is between the first and second spaces,
@@ -69,9 +81,10 @@ public class TEST2
         String number = fullTitle.split(" ")[1];
         return number;
     }
-    
+
     // Parses the title of the given table, and returns a string.
-    public static String getTitleFromTable(Element a) {
+    public static String getTitleFromTable(Element a)
+    {
         String fullTitle = a.select("td").text();
         // Similar to the explanation in the method getNumberFromTable, this
         // title string is gathered by taking the contents after the third space
@@ -81,53 +94,86 @@ public class TEST2
         String title = fullTitle.split(" ", 3)[2];
         return title;
     }
-    
+
     // Parses the absolute URL link of the given table, and returns it as a string.
     // Links only appear as relative within JSoup.. This combines the beginning links and the relative links to make a full URL.
-    public static String getLinkFromTable(Element a, String starterURL) {
+    public static String getLinkFromTable(Element a, String starterURL)
+    {
         String link = a.select("a").attr("href");
         String urlFull = starterURL + link;
         return urlFull;
     }
-    
+
+    // downloadFile will download a given file from the URL stated, and 
+    // save the file in the TEST2 root directory with the name output.dat.
+    // This code was retrieved from the following URL on 8/30/2017 at 11:27 PM
+    // https://www.mkyong.com/java/java-how-to-download-a-file-from-the-internet/
+    // I have modified the source code somewhat in order to fit my own work.
+    // Full credit goes to the original author, mkyong.
+    public static void downloadFile(String url)
+    {
+        try
+        {
+            URL website = new URL(url);
+            ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+            FileOutputStream fos = new FileOutputStream("output.dat");
+            fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+            fos.close();
+            rbc.close();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     // A class to represent a single table. being scrubbed from the page.
-    public static class tableEntity{
+    public static class tableEntity
+    {
+
         private String number = "";
         private String title = "";
         private String url = "";
-        
-        public tableEntity(String number, String title, String url) {
+
+        public tableEntity(String number, String title, String url)
+        {
             this.number = number;
             this.title = title;
             this.url = url;
         }
-        
-        public String getNumber(){
+
+        public String getNumber()
+        {
             return number;
         }
-        
-        public String getTitle(){
+
+        public String getTitle()
+        {
             return title;
         }
-        
-        public String getURL(){
+
+        public String getURL()
+        {
             return url;
         }
-        
-        public void setNumber(String number){
+
+        public void setNumber(String number)
+        {
             this.number = number;
         }
-                
-        public void setTitle(String title){
+
+        public void setTitle(String title)
+        {
             this.title = title;
         }
-        
-        public void setURL(String url){
+
+        public void setURL(String url)
+        {
             this.url = url;
         }
-        
+
         // Outputs a string of the given table's number, title, a tab character, and then the table's url.
-        public String output(){
+        public String output()
+        {
             return "Table " + number + " " + title + '\t' + url;
         }
     }
