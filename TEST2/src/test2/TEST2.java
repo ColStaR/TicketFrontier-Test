@@ -34,9 +34,8 @@ public class TEST2
         Vector<tableEntity> tableVector = new Vector<>();
 
         // Walk through all of the tables in the list, parsing the necessary information.
-        for (Element a : contentTableList)
-        {
-            tableEntity newTable = new tableEntity(getTitleFromTable(a), getLinkFromTable(a, urlBegin));
+        for (Element a : contentTableList) {
+            tableEntity newTable = new tableEntity(getNumberFromTable(a), getTitleFromTable(a), getLinkFromTable(a, urlBegin));
             tableVector.add(newTable);
 //            System.out.println(a);
 //        System.out.println("Link: " + getLinkFromTable(a, urlBegin));
@@ -44,14 +43,33 @@ public class TEST2
 //        System.out.println("#####");
         }
         
-        for (tableEntity currTable: tableVector){
-            System.out.println(currTable.output());
+        if(args.length == 1){
+            for(tableEntity currTable : tableVector) {
+//                System.out.println(currTable.getTitle());
+                if(currTable.getNumber().equals(args[0])) {
+                    System.out.println("Match found! " + currTable.output());
+                }
+            }
+        } else {
+            // Outputs the table number, name, and URL for each of the tables found.
+            for (tableEntity currTable: tableVector){
+                System.out.println(currTable.output());
+            }
         }
+        
     }
-
+    
+    // Parses the title of the given table, and returns a string.
+    public static String getNumberFromTable(Element a) {
+        String fullTitle = a.select("td").text();
+        String number = fullTitle.split(" ")[1];
+        return number;
+    }
+    
     // Parses the title of the given table, and returns a string.
     public static String getTitleFromTable(Element a) {
-        String title = a.select("td").text();
+        String fullTitle = a.select("td").text();
+        String title = fullTitle.split(" ", 3)[2];
         return title;
     }
     
@@ -65,12 +83,18 @@ public class TEST2
     
     // A class to represent a single table..
     public static class tableEntity{
+        private String number = "";
         private String title = "";
         private String url = "";
         
-        public tableEntity(String title, String url) {
+        public tableEntity(String number, String title, String url) {
+            this.number = number;
             this.title = title;
             this.url = url;
+        }
+        
+        public String getNumber(){
+            return number;
         }
         
         public String getTitle(){
@@ -81,6 +105,10 @@ public class TEST2
             return url;
         }
         
+        public void setNumber(String number){
+            this.number = number;
+        }
+                
         public void setTitle(String title){
             this.title = title;
         }
@@ -89,8 +117,9 @@ public class TEST2
             this.url = url;
         }
         
+        // Outputs a string of the given table's title, a tab character, and then the table's url.
         public String output(){
-            return title + "    " + url;
+            return "Table " + number + " " + title + '\t' + url;
         }
     }
 }
