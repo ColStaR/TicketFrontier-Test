@@ -5,6 +5,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import java.util.*;
 
 /**
  * Ticket Frontier Technical Test, Test 2.
@@ -30,6 +31,8 @@ public class TEST2
         // Each table is seperated by a <tr> tag, so selecting the content between
         // <tr> and </tr> gives us information on a single table.
         Elements contentTableList = doc.select("tr");
+        Vector<String> tableTitle = new Vector<>();
+        Vector<String> table = new Vector<>();
 
         // Walk through all of the tables in the list, parsing the necessary information.
         for (Element a : contentTableList)
@@ -53,5 +56,31 @@ public class TEST2
         String link = a.select("a").attr("href");
         String urlFull = starterURL + link;
         return urlFull;
+    }
+    
+    public class tableEntity{
+        private String title = "";
+        private String url = "";
+        
+        public tableEntity(String title, String url) {
+            this.title = title;
+            this.url = url;
+        }
+        
+        public String getTitle(){
+            return title;
+        }
+        
+        public String getURL(){
+            return url;
+        }
+        
+        public void setTitle(String title){
+            this.title = title;
+        }
+        
+        public void setURL(String url){
+            this.url = url;
+        }
     }
 }
