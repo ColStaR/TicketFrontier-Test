@@ -33,35 +33,39 @@ public class TEST2
         Elements contentTableList = doc.select("tr");
         Vector<tableEntity> tableVector = new Vector<>();
 
-        // Walk through all of the tables in the list, parsing the necessary information.
+        // Walk through all of the tables in the list, populating the 
+        // tableVector data structure with tableEntities..
         for (Element a : contentTableList) {
             tableEntity newTable = new tableEntity(getNumberFromTable(a), getTitleFromTable(a), getLinkFromTable(a, urlBegin));
             tableVector.add(newTable);
-//            System.out.println(a);
-//        System.out.println("Link: " + getLinkFromTable(a, urlBegin));
-//        System.out.println("Title: " + getTitleFromTable(a));
-//        System.out.println("#####");
         }
         
+        // If there is a single argument in the command, search the tableVector
+        // to see if there are any matches.
         if(args.length == 1){
             for(tableEntity currTable : tableVector) {
-//                System.out.println(currTable.getTitle());
+                // Compare the number of the tables in tableVector to the
+                // number given in the argument.
                 if(currTable.getNumber().equals(args[0])) {
                     System.out.println("Match found! " + currTable.output());
+                    // DO TABLE DOWNLADING HERE
                 }
             }
+        // If there are no arguments or more than one, assume default operation
+        // and simply output the contents of tableVector line by line.
         } else {
-            // Outputs the table number, name, and URL for each of the tables found.
             for (tableEntity currTable: tableVector){
                 System.out.println(currTable.output());
             }
         }
-        
     }
     
-    // Parses the title of the given table, and returns a string.
+    // Parses the number of the given table, and returns a string.
     public static String getNumberFromTable(Element a) {
         String fullTitle = a.select("td").text();
+        // Splits the fullTitle string into an array seperated by spaces.
+        // Since the number string is between the first and second spaces,
+        // we capture the second string in the array for the number.
         String number = fullTitle.split(" ")[1];
         return number;
     }
@@ -69,6 +73,11 @@ public class TEST2
     // Parses the title of the given table, and returns a string.
     public static String getTitleFromTable(Element a) {
         String fullTitle = a.select("td").text();
+        // Similar to the explanation in the method getNumberFromTable, this
+        // title string is gathered by taking the contents after the third space
+        // to the end.. This is accomplished with the limiter in the split
+        // function, which stops splitting after three splits. We can then
+        // grab the third substring in the array, which is the title.
         String title = fullTitle.split(" ", 3)[2];
         return title;
     }
@@ -81,7 +90,7 @@ public class TEST2
         return urlFull;
     }
     
-    // A class to represent a single table..
+    // A class to represent a single table. being scrubbed from the page.
     public static class tableEntity{
         private String number = "";
         private String title = "";
@@ -117,7 +126,7 @@ public class TEST2
             this.url = url;
         }
         
-        // Outputs a string of the given table's title, a tab character, and then the table's url.
+        // Outputs a string of the given table's number, title, a tab character, and then the table's url.
         public String output(){
             return "Table " + number + " " + title + '\t' + url;
         }
