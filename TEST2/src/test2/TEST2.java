@@ -26,22 +26,32 @@ public class TEST2
 //        String line = rawText.toString();
 //        System.out.println(line);        
 
-        Elements content = doc.select("tr");
+        // Extracts the list of tables in the body of the document.
+        // Each table is seperated by a <tr> tag, so selecting the content between
+        // <tr> and </tr> gives us information on a single table.
+        Elements contentTableList = doc.select("tr");
 
-        for (Element a : content)
+        // Walk through all of the tables in the list, parsing the necessary information.
+        for (Element a : contentTableList)
         {
 //            System.out.println(a);
-            String title = a.select("td").text();
-            String link = a.select("a").attr("href");
-            System.out.println("Title: " + title.toString());
-
-            // Links only appear as relative within JSoup.. This combines the beginning links and the relative links to make a full URL.
-            String urlFull = urlBegin + link;
-            System.out.println("Link: " + urlFull);
-            System.out.println("#####");
-
+        System.out.println("Link: " + getLinkFromTable(a, urlBegin));
+        System.out.println("Title: " + getTitleFromTable(a));
+        System.out.println("#####");
         }
-
     }
 
+    // Parses the title of the given table, and returns a string.
+    public static String getTitleFromTable(Element a) {
+        String title = a.select("td").text();
+        return title;
+    }
+    
+    // Parses the absolute URL link of the given table, and returns it as a string.
+    // Links only appear as relative within JSoup.. This combines the beginning links and the relative links to make a full URL.
+    public static String getLinkFromTable(Element a, String starterURL) {
+        String link = a.select("a").attr("href");
+        String urlFull = starterURL + link;
+        return urlFull;
+    }
 }
