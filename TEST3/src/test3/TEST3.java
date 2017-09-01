@@ -50,7 +50,8 @@ public class TEST3
 //        for(disasterRecord record: recordsList){
 //            System.out.println(record.getRecordNum());
 //        }
-//        groupByYear(recordsList);
+        groupByYear(recordsList);
+        System.out.println("            ");
         groupByWeekday(recordsList);
     }
 
@@ -114,7 +115,7 @@ public class TEST3
         boolean firstRun = true;
 
         System.out.println("BY YEAR");
-        
+
         // Group By Year Algorithm begins below.
         for (disasterRecord record : recordList)
         {
@@ -138,18 +139,18 @@ public class TEST3
                     totalKilled = record.getTotalDeaths();
                     firstRun = false;
                 } else
-                    // Processing all subsequent records on a new year.
+                // Processing all subsequent records on a new year.
                 {
                     // Calculate Averages for the previous year.
                     averageWounded = totalWounded / numAccidents;
                     averageKilled = totalKilled / numAccidents;
                     // Show Output for the previous year.
                     System.out.println("Year: " + year
-                            + ", # of Accidents: " + numAccidents
-                            + ", Ave. Wounded: " + averageWounded
-                            + ", total Wounded: " + totalWounded
-                            + ", Ave. Killed " + averageKilled
-                            + ", total Killed: " + totalKilled);
+                            + " | # of Accidents: " + numAccidents
+                            + " | Ave. Wounded: " + averageWounded
+                            + " | total Wounded: " + totalWounded
+                            + " | Ave. Killed " + averageKilled
+                            + " | total Killed: " + totalKilled);
                     // Start the calculations for the new year.
                     year = record.getDateYear();
                     numAccidents = 1;
@@ -159,7 +160,7 @@ public class TEST3
             }
         }
     }
-    
+
     // Algorithm that processes the record list, grouping each record by day of
     // the week and finding data on the number of accidents, total wounded,  
     // and total killed for a given year, and then outputting that data..
@@ -169,6 +170,7 @@ public class TEST3
         // through the days and not adding or removing any, an array offers
         // the best performance for the many scans we will be doing.
         weekdayRecord[] weekdays = new weekdayRecord[7];
+
         // Create a weekdayRecord for every day of the week.
         weekdayRecord Sun = new weekdayRecord("Sun");
         weekdayRecord Mon = new weekdayRecord("Mon");
@@ -177,6 +179,7 @@ public class TEST3
         weekdayRecord Thu = new weekdayRecord("Thu");
         weekdayRecord Fri = new weekdayRecord("Fri");
         weekdayRecord Sat = new weekdayRecord("Sat");
+
         // Store the weekdayRecords in the weekdays array.
         weekdays[0] = Sun;
         weekdays[1] = Mon;
@@ -185,19 +188,48 @@ public class TEST3
         weekdays[4] = Thu;
         weekdays[5] = Fri;
         weekdays[6] = Sat;
-        
-        /*
+
         // Group By Weekday Algorithm begins below.
+        // Walk through each record in the list.
         for (disasterRecord record : recordList)
         {
-            for (weekdayRecord day : weekdays){
-                if(record.getDateDay().equals(day.getName())) {
-//                    System.out.println(day.getName() + " = " + record.getDateDay());
+            // For each record, compare it to the avaiable weekdays to find the
+            // weekday that matches the record.
+            for (weekdayRecord day : weekdays)
+            {
+                // Once the matching weekday has been found, begin calculations.
+                // Takes the current data per weekday, and adds the record's
+                // date to it.
+                if (record.getDateDay().equals(day.getName()))
+                {
                     day.setNumAccidents(day.getNumAccidents() + 1);
-                    day.setTotalKilled(totalKilled);
-                    
+                    day.setTotalWounded(day.getTotalWounded() + record.getRecordWounded());
+                    // Each record also includes numbers of those who died in the
+                    // recorded accident. But the first one reports a previous
+                    // annual death count of -9999, and uses that recorded
+                    // accident's death count as the annual total. The code
+                    // below is a workaround for that situation, treating the
+                    // recorded accident's death count as the annual one.
+                    if (record.getRecordDeaths() < 0)
+                    {
+                        day.setTotalKilled(day.getTotalKilled() + record.getTotalDeaths());
+                    } else
+                    {
+                        day.setTotalKilled(day.getTotalKilled() + record.getRecordDeaths());
+                    }
                 }
             }
-        } */
+        }
+
+        // Header output.
+        System.out.println("BY WEEKDAY");
+        for (weekdayRecord day : weekdays)
+        {
+            // Show Output and data for each weekday.
+            System.out.println("Day: " + day.getName()
+                    + " | # of Accidents: " + day.getNumAccidents()
+                    + " | Total Wounded: " + day.getTotalWounded()
+                    + " | Total Killed: " + day.getTotalKilled());
+        }
     }
 }
