@@ -5,8 +5,11 @@
  */
 package test3;
 
+
+import java.io.*;
+
 /**
- *
+ * TicketFrontier Test 3
  * @author Ryan
  */
 public class TEST3
@@ -17,7 +20,31 @@ public class TEST3
      */
     public static void main(String[] args)
     {
-        // TODO code application logic here
+        String fileName = args[0];
+
+        // This file reading code comes from an earlier Java project for
+        // a class at the SRJC, CS 17.11.It has been modified slightly to
+        // accept the filename scheme.
+        try {
+            String line = "";
+            FileReader fileReader =  new FileReader(fileName);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            while((line = bufferedReader.readLine()) != null) {
+                System.out.println(line);
+            }   
+            bufferedReader.close();         
+        }
+        catch(FileNotFoundException ex) {
+            System.out.println(
+                "Unable to open file '" + 
+                fileName + "'");                
+        }
+        catch(IOException ex) {
+            System.out.println(
+                "Error reading file '" 
+                + fileName + "'");        
+        }
     }
     
 }
