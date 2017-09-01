@@ -28,21 +28,23 @@ public class TEST2
         String url = "http://www2.stat.duke.edu/courses/Spring01/sta114/data/andrews.html";
         String urlBegin = "http://www2.stat.duke.edu/courses/Spring01/sta114/data/";
         Document doc = Jsoup.connect(url).get();
-//        Element rawText = doc.body();
-//        String line = rawText.toString();
-//        System.out.println(line);        
+        // TO DO: Implement 404 Page Not Found error.
 
         // Extracts the list of tables in the body of the document.
         // Each table is seperated by a <tr> tag, so selecting the content between
         // <tr> and </tr> gives us information on a single table.
         Elements contentTableList = doc.select("tr");
+        
+        // A vector will store the table data types and act as our general
+        // storage data structure for the tables.
         Vector<tableEntity> tableVector = new Vector<>();
 
         // Walk through all of the tables in the list, populating the 
-        // tableVector data structure with tableEntities..
+        // tableVector data structure with tableEntities.
         for (Element a : contentTableList)
         {
-            tableEntity newTable = new tableEntity(getNumberFromTable(a), getTitleFromTable(a), getLinkFromTable(a, urlBegin));
+            tableEntity newTable = new tableEntity(getNumberFromTable(a), 
+                    getTitleFromTable(a), getLinkFromTable(a, urlBegin));
             tableVector.add(newTable);
         }
 
@@ -61,14 +63,30 @@ public class TEST2
                     downloadFile(currTable.getURL());
                     System.out.println("File Downloaded as output.dat!");
                 }
+                // TO DO: Implement file not found error.
             }
+            // TO DO: Implement error for when args.length < 1.
+            
         // If there are no arguments or more than one, assume default operation
             // and simply output the contents of tableVector line by line.
+            // Only the lines with month names in the title will be output.
         } else
         {
-            for (tableEntity currTable : tableVector)
-            {
-                System.out.println(currTable.output());
+            // This table contains the names of the months to search the titles
+            // with. Do note that each month name string has spaces to 
+            // distinguish it as individiual words, as opposed to parts of
+            // words like "Mays" with "May".
+            String monthNames[] = {" January ", " Febuary ", " March ", 
+                " April ", " May ", " June ", " July ", " August ", 
+                " September ", " October ", " November ", " December "};
+            // Walk through each table, finding and outputting tables with 
+            // month names as requested.
+            for (tableEntity currTable : tableVector) {
+                for (String month : monthNames) {
+                    if(currTable.title.contains(month)){
+                        System.out.println(currTable.output());
+                    }
+                }
             }
         }
     }
