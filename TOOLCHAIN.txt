@@ -1,1 +1,1 @@
-Windows 10 / Java 1.8
+Windows 10 / Java Development Kit 8 Update 25
