@@ -46,10 +46,11 @@ public class TEST3
         {
             System.out.println("Error reading file '" + fileName + "'");
         }
-        
-        for(disasterRecord record: recordsList){
-            System.out.println(record.getRecordNum());
-        }
+
+//        for(disasterRecord record: recordsList){
+//            System.out.println(record.getRecordNum());
+//        }
+        groupByYear(recordsList);
     }
 
     public static void parseLine(ArrayList<disasterRecord> record, String line)
@@ -78,7 +79,7 @@ public class TEST3
         // 8 = Running total of deaths that year
         // 10 = Wounded in that accident
         // Begin storing data from the table's string.
-        int tableNum = Integer.parseInt(dividedLine[1]); 
+        int tableNum = Integer.parseInt(dividedLine[1]);
         int tableSubNum = Integer.parseInt(dividedLine[2]);
         int recordNum = Integer.parseInt(dividedLine[3]);
         String dateDay = dividedLine[4];
@@ -89,9 +90,58 @@ public class TEST3
         int recordWounded = Integer.parseInt(dividedLine[10]);
 
         // Construct a new disasterRecord, and add it to the program's list.
-        disasterRecord newRecord = new disasterRecord(tableNum, tableSubNum, 
-        recordNum, dateDay, dateNum, dateMonth, dateYear, totalDeaths, 
-        recordWounded);
+        disasterRecord newRecord = new disasterRecord(tableNum, tableSubNum,
+                recordNum, dateDay, dateNum, dateMonth, dateYear, totalDeaths,
+                recordWounded);
         record.add(newRecord);
+    }
+
+    private static void groupByYear(ArrayList<disasterRecord> recordList)
+    {
+        int year = 0;
+        int numAccidents = 0;
+        int totalWounded = 0;
+        int totalKilled = 0;
+        double averageWounded = 0;
+        double averageKilled = 0;
+        boolean firstRun = true;
+
+        for (disasterRecord record : recordList)
+        {
+            if (record.getDateYear() == year)
+            {
+                numAccidents++;
+                totalWounded += record.getRecordWounded();
+                totalKilled = record.getTotalDeaths();
+            } else
+            {
+                if (firstRun)
+                {
+                    // Start the first Year
+                    year = record.getDateYear();
+                    numAccidents = 1;
+                    totalWounded = record.getRecordWounded();
+                    totalKilled = record.getTotalDeaths();
+                    firstRun = false;
+                } else
+                {
+                    // Calculate Averages
+                    averageWounded = totalWounded / numAccidents;
+                    averageKilled = totalKilled / numAccidents;
+                    // Show Output
+                    System.out.println("Year: " + year
+                            + ", # of Accidents: " + numAccidents
+                            + ", Ave. Wounded: " + averageWounded
+                            + ", total Wounded: " + totalWounded
+                            + ", Ave. Killed " + averageKilled
+                            + ", total Killed: " + totalKilled);
+                    // Start Next Year
+                    year = record.getDateYear();
+                    numAccidents = 1;
+                    totalWounded = record.getRecordWounded();
+                    totalKilled = record.getTotalDeaths();
+                }
+            }
+        }
     }
 }
