@@ -63,10 +63,9 @@ public class TEST3
         String shortLine = line.replaceAll(" +", " ");
 
         // Through rigorous research, I found that splitting between spaces
-        // divides the String into 18 substrings. Since this number does not
+        // divides the String into 11 substrings. Since this number does not
         // change in size, it is set to an array for performance.
-        String dividedLine[] = new String[21];
-//        System.out.println(shortLine);
+        String dividedLine[] = new String[11];
         dividedLine = shortLine.split(" ");
         // Useful Indexes:
         // 1 = table number
@@ -78,10 +77,7 @@ public class TEST3
         // 7 = year
         // 8 = Running total of deaths that year
         // 10 = Wounded in that accident
-//                for(int a=0; a < 10; a++){
-//                    System.out.print(dividedLine[a] + "|");
-//                }
-
+        // Begin storing data from the table's string.
         int tableNum = Integer.parseInt(dividedLine[1]); 
         int tableSubNum = Integer.parseInt(dividedLine[2]);
         int recordNum = Integer.parseInt(dividedLine[3]);
