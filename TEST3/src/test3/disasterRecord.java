@@ -15,6 +15,7 @@ public class disasterRecord
     private String dateMonth = "";
     private int dateYear = -999;
     private int totalDeaths = 0;
+    private int recordDeaths = 0;
     private int recordWounded = 0;
 
     public disasterRecord()
@@ -23,7 +24,7 @@ public class disasterRecord
 
     public disasterRecord(int tableNum, int tableSubNum, int recordNum,
             String dateDay, int dateNum, String dateMonth, int dateYear,
-            int totalDeaths, int recordWounded)
+            int totalDeaths, int recordDeaths, int recordWounded)
     {
         this.tableNum = tableNum;
         this.tableSubNum = tableSubNum;
@@ -33,6 +34,7 @@ public class disasterRecord
         this.dateMonth = dateMonth;
         this.dateYear = dateYear;
         this.totalDeaths = totalDeaths;
+        this.recordDeaths = recordDeaths;
         this.recordWounded = recordWounded;
     }
 
@@ -114,6 +116,16 @@ public class disasterRecord
     public void setTotalDeaths(int totalDeaths)
     {
         this.totalDeaths = totalDeaths;
+    }
+    
+    public int getRecordDeaths()
+    {
+        return recordDeaths;
+    }
+
+    public void setRecordDeaths(int totalDeaths)
+    {
+        this.recordDeaths = totalDeaths;
     }
 
     public int getRecordWounded()

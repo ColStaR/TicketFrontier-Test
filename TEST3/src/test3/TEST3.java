@@ -78,6 +78,7 @@ public class TEST3
         // 6 = month
         // 7 = year
         // 8 = Running total of deaths that year
+        // 9 = Killed in that accident.
         // 10 = Wounded in that accident
         // Begin storing data from the table's string.
         int tableNum = Integer.parseInt(dividedLine[1]);
@@ -88,12 +89,13 @@ public class TEST3
         String dateMonth = dividedLine[6];
         int dateYear = Integer.parseInt(dividedLine[7]);
         int totalDeaths = Integer.parseInt(dividedLine[8]);
+        int recordDeaths = Integer.parseInt(dividedLine[9]);
         int recordWounded = Integer.parseInt(dividedLine[10]);
 
         // Construct a new disasterRecord, and add it to the program's list.
         disasterRecord newRecord = new disasterRecord(tableNum, tableSubNum,
                 recordNum, dateDay, dateNum, dateMonth, dateYear, totalDeaths,
-                recordWounded);
+                recordDeaths, recordWounded);
         record.add(newRecord);
     }
 
@@ -184,15 +186,18 @@ public class TEST3
         weekdays[5] = Fri;
         weekdays[6] = Sat;
         
+        /*
         // Group By Weekday Algorithm begins below.
         for (disasterRecord record : recordList)
         {
             for (weekdayRecord day : weekdays){
                 if(record.getDateDay().equals(day.getName())) {
-                    System.out.println(day.getName() + " = " + record.getDateDay());
+//                    System.out.println(day.getName() + " = " + record.getDateDay());
+                    day.setNumAccidents(day.getNumAccidents() + 1);
+                    day.setTotalKilled(totalKilled);
                     
                 }
             }
-        }
+        } */
     }
 }
