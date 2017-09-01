@@ -50,7 +50,8 @@ public class TEST3
 //        for(disasterRecord record: recordsList){
 //            System.out.println(record.getRecordNum());
 //        }
-        groupByYear(recordsList);
+//        groupByYear(recordsList);
+        groupByWeekday(recordsList);
     }
 
     public static void parseLine(ArrayList<disasterRecord> record, String line)
@@ -157,4 +158,41 @@ public class TEST3
         }
     }
     
+    // Algorithm that processes the record list, grouping each record by day of
+    // the week and finding data on the number of accidents, total wounded,  
+    // and total killed for a given year, and then outputting that data..
+    private static void groupByWeekday(ArrayList<disasterRecord> recordList)
+    {
+        // Array to store the weekdayRecord objects. Since we will be scanning
+        // through the days and not adding or removing any, an array offers
+        // the best performance for the many scans we will be doing.
+        weekdayRecord[] weekdays = new weekdayRecord[7];
+        // Create a weekdayRecord for every day of the week.
+        weekdayRecord Sun = new weekdayRecord("Sun");
+        weekdayRecord Mon = new weekdayRecord("Mon");
+        weekdayRecord Tue = new weekdayRecord("Tue");
+        weekdayRecord Wed = new weekdayRecord("Wed");
+        weekdayRecord Thu = new weekdayRecord("Thu");
+        weekdayRecord Fri = new weekdayRecord("Fri");
+        weekdayRecord Sat = new weekdayRecord("Sat");
+        // Store the weekdayRecords in the weekdays array.
+        weekdays[0] = Sun;
+        weekdays[1] = Mon;
+        weekdays[2] = Tue;
+        weekdays[3] = Wed;
+        weekdays[4] = Thu;
+        weekdays[5] = Fri;
+        weekdays[6] = Sat;
+        
+        // Group By Weekday Algorithm begins below.
+        for (disasterRecord record : recordList)
+        {
+            for (weekdayRecord day : weekdays){
+                if(record.getDateDay().equals(day.getName())) {
+                    System.out.println(day.getName() + " = " + record.getDateDay());
+                    
+                }
+            }
+        }
+    }
 }

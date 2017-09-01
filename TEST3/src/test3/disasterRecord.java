@@ -1,8 +1,8 @@
 package test3;
 
 /**
- * Author: Ryan Wong Date: Aug 31, 2017 Project Name: TEST3 Course: CS 17.11,
- * Section 6991 Description:
+ * Author: Ryan Wong Date: Aug 31, 2017 Project Name: TEST3 
+ *  Description: Record for each disaster being described in each line of T08.1.
  */
 public class disasterRecord
 {
