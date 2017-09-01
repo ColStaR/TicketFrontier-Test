@@ -96,6 +96,10 @@ public class TEST3
         record.add(newRecord);
     }
 
+    // Algorithm that processes the record list, grouping each record by year
+    // and finding data on the number of accidents, average wounded, total
+    // wounded, average killed, and total killed for a given year, and then 
+    // outputting that data..
     private static void groupByYear(ArrayList<disasterRecord> recordList)
     {
         int year = 0;
@@ -106,36 +110,44 @@ public class TEST3
         double averageKilled = 0;
         boolean firstRun = true;
 
+        System.out.println("BY YEAR");
+        
+        // Group By Year Algorithm begins below.
         for (disasterRecord record : recordList)
         {
+            // Updating year's data with records from the same year.
             if (record.getDateYear() == year)
             {
                 numAccidents++;
                 totalWounded += record.getRecordWounded();
+                // The records keep a running count of total deaths already, 
+                // so no calculations needed. We just grab the last count.
                 totalKilled = record.getTotalDeaths();
             } else
             {
+                // The first run needs to be seeded data without outputting any.
                 if (firstRun)
                 {
-                    // Start the first Year
+                    // Start the algorithm with the first year's data.
                     year = record.getDateYear();
                     numAccidents = 1;
                     totalWounded = record.getRecordWounded();
                     totalKilled = record.getTotalDeaths();
                     firstRun = false;
                 } else
+                    // Processing all subsequent records on a new year.
                 {
-                    // Calculate Averages
+                    // Calculate Averages for the previous year.
                     averageWounded = totalWounded / numAccidents;
                     averageKilled = totalKilled / numAccidents;
-                    // Show Output
+                    // Show Output for the previous year.
                     System.out.println("Year: " + year
                             + ", # of Accidents: " + numAccidents
                             + ", Ave. Wounded: " + averageWounded
                             + ", total Wounded: " + totalWounded
                             + ", Ave. Killed " + averageKilled
                             + ", total Killed: " + totalKilled);
-                    // Start Next Year
+                    // Start the calculations for the new year.
                     year = record.getDateYear();
                     numAccidents = 1;
                     totalWounded = record.getRecordWounded();
@@ -144,4 +156,5 @@ public class TEST3
             }
         }
     }
+    
 }
