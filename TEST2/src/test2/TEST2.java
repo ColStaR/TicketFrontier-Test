@@ -56,8 +56,10 @@ public class TEST2
                 // number given in the argument.
                 if (currTable.getNumber().equals(args[0]))
                 {
-                    System.out.println("Match found! " + currTable.output());
+                    System.out.println("Match found!");
+                    System.out.println("Downloading Table " + currTable.getNumber() + "...");
                     downloadFile(currTable.getURL());
+                    System.out.println("File Downloaded as output.dat!");
                 }
             }
         // If there are no arguments or more than one, assume default operation
