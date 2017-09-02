@@ -25,8 +25,25 @@ public class TEST2
      */
     public static void main(String[] args) throws IOException
     {
+        // Implementation Note: when first creating this program., I was rushing 
+        // to finish it as I was concerned about time. As such, I put much of the
+        // code in main and not as functions. This clutters up readability and
+        // modularity. If I could do it again, I would functionalize as much
+        // as I could, which would offer flexibility for more sophistication
+        // like user input searching.
+        
+        // Note: the JSoup code comes from my previous MLP Fanfiction
+        // record-gathering program I made in 2015, and supplemented by the 
+        // library's  online documentation.
+        
+        // The absolute URL that our program will travel to in order to retrieve the tables.
         String url = "http://www2.stat.duke.edu/courses/Spring01/sta114/data/andrews.html";
+        // The first part of the URL that all of the tables are linked in. JSoup
+        // only provided relative URL's, so we'll use this partial URL and those
+        // relative URL's to make the absolute URL for each table.
         String urlBegin = "http://www2.stat.duke.edu/courses/Spring01/sta114/data/";
+        
+        // Begin connecting to the webpage to parse through it.
         Document doc = Jsoup.connect(url).get();
         // TO DO: Implement 404 Page Not Found error.
 
@@ -139,7 +156,8 @@ public class TEST2
     }
 
     // Parses the absolute URL link of the given table, and returns it as a string.
-    // Links only appear as relative within JSoup.. This combines the beginning links and the relative links to make a full URL.
+    // Links only appear as relative within JSoup. This combines the beginning 
+    // links and the relative links to make a full URL.
     public static String getLinkFromTable(Element a, String starterURL)
     {
         String link = a.select("a").attr("href");
@@ -149,6 +167,7 @@ public class TEST2
 
     // downloadFile will download a given file from the URL stated, and 
     // save the file in the TEST2 root directory with the name output.dat.
+    //
     // This code was retrieved from the following URL on 8/30/2017 at 11:27 PM
     // https://www.mkyong.com/java/java-how-to-download-a-file-from-the-internet/
     // I have modified the source code somewhat in order to fit my own work.
@@ -214,7 +233,8 @@ public class TEST2
             this.url = url;
         }
 
-        // Outputs a string of the given table's number, title, a tab character, and then the table's url.
+        // Outputs a string of the given table's number, title, a tab character, 
+        // and then the table's url.
         public String output()
         {
             return "Table " + number + " " + title + '\t' + url;
