@@ -31,18 +31,17 @@ public class TEST2
         // modularity. If I could do it again, I would functionalize as much
         // as I could, which would offer flexibility for more sophistication
         // like user input searching.
-        
+
         // Note: the JSoup code comes from my previous MLP Fanfiction
         // record-gathering program I made in 2015, and supplemented by the 
         // library's  online documentation.
-        
         // The absolute URL that our program will travel to in order to retrieve the tables.
         String url = "http://www2.stat.duke.edu/courses/Spring01/sta114/data/andrews.html";
         // The first part of the URL that all of the tables are linked in. JSoup
         // only provided relative URL's, so we'll use this partial URL and those
         // relative URL's to make the absolute URL for each table.
         String urlBegin = "http://www2.stat.duke.edu/courses/Spring01/sta114/data/";
-        
+
         // Begin connecting to the webpage to parse through it.
         Document doc = Jsoup.connect(url).get();
         // TO DO: Implement 404 Page Not Found error.
@@ -83,15 +82,14 @@ public class TEST2
                     System.out.println("File Downloaded as output.dat!");
                     matchFound = true;
                 }
-
-                // After going through all the records and no match is found, 
-                // end the program.
-                if (!matchFound)
-                {
-                    System.out.println("No matching table found.");
-                    System.out.println("Exiting program.");
-                    System.exit(1);
-                }
+            }
+            // After going through all the records and no match is found, 
+            // end the program.
+            if (!matchFound)
+            {
+                System.out.println("No matching table found.");
+                System.out.println("Exiting program.");
+                System.exit(1);
             }
 
         } // If there are more than 1 arguments, end the program.
