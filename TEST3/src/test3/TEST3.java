@@ -33,10 +33,23 @@ public class TEST3
         
         String fileName = args[0];
         ArrayList<disasterRecord> recordsList = new ArrayList<disasterRecord>();
+        
+        // Open and parse the array of disasterRecords, storing them into recordsList.
+        openDisasterFile(recordsList, fileName);
 
+        // Output the records grouped by Year.
+        groupByYear(recordsList);
+        System.out.println("            ");
+        // Output the records grouped by Weekday.
+        groupByWeekday(recordsList);
+    }
+    
+        // A function that reads a file given its name and parses it into a
+        // disasterRecord array for storage.
         // This file reading code comes from an earlier Java project for
         // a class at the SRJC, CS 17.11.It has been modified slightly to
         // accept the filename scheme.
+    public static void openDisasterFile(ArrayList<disasterRecord> recordsList, String fileName){
         try
         {
             String line = "";
@@ -56,13 +69,6 @@ public class TEST3
         {
             System.out.println("Error reading file '" + fileName + "'");
         }
-
-//        for(disasterRecord record: recordsList){
-//            System.out.println(record.getRecordNum());
-//        }
-        groupByYear(recordsList);
-        System.out.println("            ");
-        groupByWeekday(recordsList);
     }
 
     public static void parseLine(ArrayList<disasterRecord> record, String line)
@@ -91,6 +97,7 @@ public class TEST3
         // 8 = Running total of deaths that year
         // 9 = Killed in that accident.
         // 10 = Wounded in that accident
+        
         // Begin storing data from the table's string.
         int tableNum = Integer.parseInt(dividedLine[1]);
         int tableSubNum = Integer.parseInt(dividedLine[2]);
@@ -233,9 +240,9 @@ public class TEST3
 
         // Header output.
         System.out.println("BY WEEKDAY");
+        // Show Output and data for each weekday.
         for (weekdayRecord day : weekdays)
         {
-            // Show Output and data for each weekday.
             System.out.println("Day: " + day.getName()
                     + " | # of Accidents: " + day.getNumAccidents()
                     + " | Total Wounded: " + day.getTotalWounded()
