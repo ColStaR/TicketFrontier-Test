@@ -71,6 +71,9 @@ public class TEST3
         }
     }
 
+    // parseLine takes the incoming line from the open file and stores them
+    // in a usable form with a disasterRecord for each. Each new disasterRecord
+    // then gets added to the array of disasterRecords, record.
     public static void parseLine(ArrayList<disasterRecord> record, String line)
     {
         // The current lines being parsed from the table are filled with spaces,
