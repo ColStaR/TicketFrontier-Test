@@ -34,7 +34,7 @@ public class TEST2
         // Each table is seperated by a <tr> tag, so selecting the content between
         // <tr> and </tr> gives us information on a single table.
         Elements contentTableList = doc.select("tr");
-        
+
         // A vector will store the table data types and act as our general
         // storage data structure for the tables.
         Vector<tableEntity> tableVector = new Vector<>();
@@ -43,7 +43,7 @@ public class TEST2
         // tableVector data structure with tableEntities.
         for (Element a : contentTableList)
         {
-            tableEntity newTable = new tableEntity(getNumberFromTable(a), 
+            tableEntity newTable = new tableEntity(getNumberFromTable(a),
                     getTitleFromTable(a), getLinkFromTable(a, urlBegin));
             tableVector.add(newTable);
         }
@@ -52,6 +52,8 @@ public class TEST2
         // to see if there are any matches.
         if (args.length == 1)
         {
+            boolean matchFound = false;
+
             for (tableEntity currTable : tableVector)
             {
                 // Compare the number of the tables in tableVector to the
@@ -62,28 +64,49 @@ public class TEST2
                     System.out.println("Downloading Table " + currTable.getNumber() + "...");
                     downloadFile(currTable.getURL());
                     System.out.println("File Downloaded as output.dat!");
+                    matchFound = true;
                 }
-                // TO DO: Implement file not found error.
+
+                // After going through all the records and no match is found, 
+                // end the program.
+                if (!matchFound)
+                {
+                    System.out.println("No matching table found.");
+                    System.out.println("Exiting program.");
+                    System.exit(1);
+                }
             }
-            // TO DO: Implement error for when args.length < 1.
-            
-        // If there are no arguments or more than one, assume default operation
-            // and simply output the contents of tableVector line by line.
-            // Only the lines with month names in the title will be output.
-        } else
+
+        } // If there are more than 1 arguments, end the program.
+        else if (args.length > 1)
+        {
+            System.out.println("Too many arguments found. This program"
+                    + "can only accept 0 or 1 arguments.");
+            System.out.println("Exiting program.");
+            System.exit(1);
+        } // If there are no arguments, assume default operation
+        // and simply output the contents of tableVector line by line.
+        // Only the lines with month names in the title will be output.
+        else
         {
             // This table contains the names of the months to search the titles
             // with. Do note that each month name string has spaces to 
             // distinguish it as individiual words, as opposed to parts of
             // words like "Mays" with "May".
-            String monthNames[] = {" January ", " Febuary ", " March ", 
-                " April ", " May ", " June ", " July ", " August ", 
-                " September ", " October ", " November ", " December "};
+            String monthNames[] =
+            {
+                " January ", " Febuary ", " March ",
+                " April ", " May ", " June ", " July ", " August ",
+                " September ", " October ", " November ", " December "
+            };
             // Walk through each table, finding and outputting tables with 
             // month names as requested.
-            for (tableEntity currTable : tableVector) {
-                for (String month : monthNames) {
-                    if(currTable.title.contains(month)){
+            for (tableEntity currTable : tableVector)
+            {
+                for (String month : monthNames)
+                {
+                    if (currTable.title.contains(month))
+                    {
                         System.out.println(currTable.output());
                     }
                 }

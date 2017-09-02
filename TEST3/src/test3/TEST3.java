@@ -22,7 +22,8 @@ public class TEST3
     public static void main(String[] args)
     {
         // If the program does not have 1 argument passed into it, end program.
-        if(args.length != 1) {
+        if (args.length != 1)
+        {
             System.out.println("This program requires a single argument when run.");
             System.out.println("This argument should be the name of the table to"
                     + " be analyzed, e.g. \" T08.1\".");
@@ -30,10 +31,10 @@ public class TEST3
             System.out.println("\n This program will now close.");
             System.exit(1);
         }
-        
+
         String fileName = args[0];
         ArrayList<disasterRecord> recordsList = new ArrayList<disasterRecord>();
-        
+
         // Open and parse the array of disasterRecords, storing them into recordsList.
         openDisasterFile(recordsList, fileName);
 
@@ -43,13 +44,14 @@ public class TEST3
         // Output the records grouped by Weekday.
         groupByWeekday(recordsList);
     }
-    
+
         // A function that reads a file given its name and parses it into a
-        // disasterRecord array for storage.
-        // This file reading code comes from an earlier Java project for
-        // a class at the SRJC, CS 17.11.It has been modified slightly to
-        // accept the filename scheme.
-    public static void openDisasterFile(ArrayList<disasterRecord> recordsList, String fileName){
+    // disasterRecord array for storage.
+    // This file reading code comes from an earlier Java project for
+    // a class at the SRJC, CS 17.11.It has been modified slightly to
+    // accept the filename scheme.
+    public static void openDisasterFile(ArrayList<disasterRecord> recordsList, String fileName)
+    {
         try
         {
             String line = "";
@@ -100,7 +102,7 @@ public class TEST3
         // 8 = Running total of deaths that year
         // 9 = Killed in that accident.
         // 10 = Wounded in that accident
-        
+
         // Begin storing data from the table's string.
         int tableNum = Integer.parseInt(dividedLine[1]);
         int tableSubNum = Integer.parseInt(dividedLine[2]);
