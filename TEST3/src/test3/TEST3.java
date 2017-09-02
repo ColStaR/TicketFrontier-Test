@@ -21,6 +21,16 @@ public class TEST3
      */
     public static void main(String[] args)
     {
+        // If the program does not have 1 argument passed into it, end program.
+        if(args.length != 1) {
+            System.out.println("This program requires a single argument when run.");
+            System.out.println("This argument should be the name of the table to"
+                    + " be analyzed, e.g. \" T08.1\".");
+            System.out.println("Please run the program again with this argument.");
+            System.out.println("\n This program will now close.");
+            System.exit(1);
+        }
+        
         String fileName = args[0];
         ArrayList<disasterRecord> recordsList = new ArrayList<disasterRecord>();
 
