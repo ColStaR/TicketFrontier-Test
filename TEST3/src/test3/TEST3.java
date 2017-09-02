@@ -123,6 +123,11 @@ public class TEST3
     // outputting that data..
     private static void groupByYear(ArrayList<disasterRecord> recordList)
     {
+        // Note: it may have been more code efficient to make a class for each
+        // year to track its statistics as I did with groupByWeekday. However,
+        // doing it like this seemed more time-efficient at the time. Were I
+        // to do it again, I probably would implement this program more
+        // similarly to groupByWeekday.
         int year = 0;
         int numAccidents = 0;
         int totalWounded = 0;
